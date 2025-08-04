@@ -1,3 +1,3 @@
 User-agent: *
 Disallow:
-Sitemap: https://katexochen.github.io/sitemap.xml
+Sitemap: https://katexochen.github.io/blog/sitemap.xml
