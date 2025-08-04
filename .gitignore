@@ -1,3 +1,5 @@
 dist/
 public/
 *.lock
+result*
+.direnv
