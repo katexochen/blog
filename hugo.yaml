@@ -1,4 +1,4 @@
-baseURL: https://katexochen.github.io/blog/
+baseURL: https://katexochen.aro.bz
 languageCode: en-us
 title: blog katexochen
 theme: PaperMod
@@ -52,7 +52,7 @@ params:
     iconHeight: 35
 
   homeInfoParams:
-    Title: "Hi there \U0001F44B"
+    Title: "Hi there, I'm Paul"
     Content: Welcome to my blog
 
   socialIcons:
