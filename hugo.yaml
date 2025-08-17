@@ -1,6 +1,7 @@
 baseURL: https://katexochen.aro.bz
 languageCode: en-us
 title: blog katexochen
+copyright: © Paul Meyer
 theme: PaperMod
 
 enableRobotsTXT: true
@@ -12,22 +13,36 @@ minify:
   disableXML: true
   minifyOutput: true
 
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
+
 params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
   title: blog katexochen
-  description: "ExampleSite description"
-  keywords: [Blog, Portfolio, PaperMod]
+  description: Personal blog of Paul Meyer.
+  keywords:
+    - blog
+    - confidential computing
+    - reproducible builds
+    - security
+    - cryptography
+    - open source
+    - Nix
+    - NixOS
   author: Paul Meyer
   defaultTheme: auto # dark, light
   disableThemeToggle: false
-
   ShowReadingTime: false
   ShowShareButtons: true
   ShowPostNavLinks: true
   ShowBreadCrumbs: true
-  ShowCodeCopyButtons: false
-  ShowWordCount: true
+  ShowCodeCopyButtons: true
+  ShowWordCount: false
   ShowRssButtonInSectionTermList: true
+  ShowAllPagesInArchive: true
   UseHugoToc: true
   disableSpecial1stPost: false
   disableScrollToTop: false
@@ -41,21 +56,25 @@ params:
   assets:
     # disableHLJS: true # to disable highlight.js
     # disableFingerprinting: true
-    favicon: "<link / abs url>"
-    favicon16x16: "<link / abs url>"
-    favicon32x32: "<link / abs url>"
-    apple_touch_icon: "<link / abs url>"
-    safari_pinned_tab: "<link / abs url>"
+    favicon: "/favicon.ico"
+    favicon16x16: "/favicon-16x16.png"
+    favicon32x32: "/favicon-32x32.png"
+    apple_touch_icon: "/apple-touch-icon.png"
+    safari_pinned_tab: "/apple-touch-icon.png"
 
   label:
-    text: "Home"
+    text: "blog katexochen"
     icon: /apple-touch-icon.png
     iconHeight: 35
 
   homeInfoParams:
     Title: "Hi there, I'm Paul"
-    Content: Welcome to my blog
+    Content: |
+      Welcome to my blog. I'm a security software engineer from Germany.
+      I like open source software development and I'm interested in reproducible builds, security and automation.
+      I contribute to NixOS and work on confidential computing.
 
+      *katexochen* is my username on various platforms and a [german (greek) word](https://www.duden.de/rechtschreibung/katexochen).
   socialIcons:
     - name: mastodon
       url: "https://infosec.exchange/@katexochen"
@@ -93,14 +112,12 @@ params:
     keys: ["title", "permalink", "summary", "content"]
 menu:
   main:
-    - identifier: categories
-      name: categories
-      url: /categories/
-      weight: 10
-    - identifier: tags
-      name: tags
-      url: /tags/
-      weight: 20
+    - name: Archive
+      url: archives/
+      weight: 5
+    # - name: Search
+    #   url: search/
+    #   weight: 10
 # Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
 pygmentsUseClasses: true
 markup:
