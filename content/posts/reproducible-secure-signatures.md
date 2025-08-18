@@ -8,10 +8,10 @@ summary: |
 
 ## The problem
 
-- we are the ones providing the build artifact, and it includes a signature
-- we want to exclude ourselves from the TCB
-- the signature protects against certain attacks
-- customerrs should be able to reproduce the build and verify the artifact, including the signature, without us being able to provide a different artifact signed with the same private key in any way
+1. we are the ones providing the build artifact, and it includes a signature
+1. we want to exclude ourselves from the TCB
+1. the signature must be correct and secure. Correct means that verify(signature, message, public key) returns true. Secure means that nobody, including the artifact builder should be able to create new message signature pairs.
+1. customers should be able to reproduce the build and verify the artifact, including the signature, without us being able to provide a different artifact signed with the same private key in any way
 
 ## Reminder: ECDSA signatures
 
@@ -48,9 +48,16 @@ This constructs a discrete logarithm problem, where given $B$ and $A$, it is cry
 3. Compute $P = u_1A + u_2B$.
 4. If $x_P \equiv r \mod q$, the signature is valid.
 
+### Security
+
+ECDSA is EUF-CMA (Existential Unforgeability under Chosen Message Attack) secure. This means that an attacker knows the public key and can query an oracle for valid signatures to messages chosen by the attacker. Note that the messages can be chosen adaptively, so the attacker could base future messages on the responses of past (message, signature) pairs. At some point, the attacker stop querying the oracle and tries to generate a (message, signature) pair where the attacker must not
+have queried the oracle with this message. The attacker breaks EUF-CMA security if the verification under given public key succeeds. 
+For more information see [Mathew Green's blog](https://blog.cryptographyengineering.com/euf-cma-and-suf-cma/) about this topic.
+
+
 ## ECDSA public key recovery
 
-Given a message $m$, its signature $(r, s)$ and the elliptic curve parameter $(p, a, b, q, A)$, it is possible to recover the public key $B$.
+Given a message $m$, its signature $(r, s)$ and the elliptic curve parameter $(p, a, b, q, A)$ and hash function $h$, it is possible to recover the public key $B$.
 
 1. How to compute X, R?
 2. Compute $u_1 = h(m) \cdot r^{-1} \mod q$
@@ -71,10 +78,22 @@ $$
 It is important that these are [nothing-up-my-sleeve numbers](https://en.wikipedia.org/wiki/Nothing-up-my-sleeve_number), as otherwise an attacker could use them based on an actual known private key.
 
 Given this fixed signature, we can recovery a unique public key $B$ for each artifact that verifies it.
-Finding the public key to this public key is equivalent to solving the discrete logarithm problem.
+Finding the private key to this public key is equivalent to solving the discrete logarithm problem.
 
 We can use the signature and public key (digest) in our build artifact and any critical observer can do the following steps to verify:
 
 1. Rebuild the artifact from source.
-2. Recover the public key from the constrant signature and the harsh of the artifact.
+2. Recover the public key from the constant signature and the hash of the artifact.
 3. Compare the embedded public key digest with the recovered public key digest.
+
+## Security
+
+### Private key recovery
+The attacker for our scheme knows the following parameters:
+1. The public key
+1. One message signature pair
+
+This is a weaker security model than EUF-CMA, since in EUF-CMA, the attacker can query the signature for the message in 2. Then they have the same information AND further oracle queries available. Therefore, since ECDSA is EUF-CMA secure, the attacker in our scheme also cannot create new message signature pairs.
+
+In practice to break the scheme using a constant signature, the attacker still needs to find a hash collision in $h$ even when they've recovered the private key.
+
