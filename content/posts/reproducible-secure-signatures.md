@@ -1,9 +1,11 @@
 ---
 date: '2025-08-17T16:00:43+02:00'
 title: 'Reproducible Secure Signatures'
-tags: [ 'cryptography', 'reproducible builds']
+tags: [ 'cryptography', 'reproducible builds' ]
 summary: |
     How to create a verifiable ECDSA signature without a private key from a reproducible build artifact using ECDSA public key recovery.
+author: [ 'Paul Meyer', 'Leonard Cohnen' ]
+showtoc: true
 ---
 
 ## The problem
@@ -50,21 +52,24 @@ This constructs a discrete logarithm problem, where given $B$ and $A$, it is cry
 
 ### Security
 
-ECDSA is EUF-CMA (Existential Unforgeability under Chosen Message Attack) secure. This means that an attacker knows the public key and can query an oracle for valid signatures to messages chosen by the attacker. Note that the messages can be chosen adaptively, so the attacker could base future messages on the responses of past (message, signature) pairs. At some point, the attacker stop querying the oracle and tries to generate a (message, signature) pair where the attacker must not
-have queried the oracle with this message. The attacker breaks EUF-CMA security if the verification under given public key succeeds. 
+ECDSA is EUF-CMA (Existential Unforgeability under Chosen Message Attack) secure.
+This means that an attacker knows the public key and can query an oracle for valid signatures to messages chosen by the attacker.
+Note that the messages can be chosen adaptively, so the attacker could base future messages on the responses of past (message, signature) pairs.
+At some point, the attacker stop querying the oracle and tries to generate a (message, signature) pair where the attacker must not have queried the oracle with this message.
+The attacker breaks EUF-CMA security if the verification under given public key succeeds.
 For more information see [Mathew Green's blog](https://blog.cryptographyengineering.com/euf-cma-and-suf-cma/) about this topic.
-
 
 ## ECDSA public key recovery
 
 Given a message $m$, its signature $(r, s)$ and the elliptic curve parameter $(p, a, b, q, A)$ and hash function $h$, it is possible to recover the public key $B$.
 
-1. How to compute X, R?
-2. Compute $u_1 = h(m) \cdot r^{-1} \mod q$
-3. Compute $u_2 = s \cdot r^{-1} \mod q$
-4. Compute $Q = u_1A + u_2R$ as candidate for public key.
+1. Choose $x_R$ from $r, r+n, r+2n, \ldots$.
+2. Find $R = (x_R, y_R)$, so that $y_R$ satisfies the curve function and $R$ is on the curve.
+3. Compute $u_1 = h(m) \cdot r^{-1} \mod q$
+4. Compute $u_2 = s \cdot r^{-1} \mod q$
+5. Compute $Q = u_1A + u_2R$ as candidate for public key.
 
-The algorithm is described in more detail in [*Standards for Efficient Cryptography (SEC) 1: Elliptic Curve Cryptography*](https://www.secg.org/sec1-v2.pdf), Section 4.1.6.
+The algorithm is described in more detail in [*Standards for Efficient Cryptography (SEC) 1: Elliptic Curve Cryptography*](https://www.secg.org/sec1-v2.pdf), Section 4.1.6, as well as on [Wikipedia](https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm#Public_key_recovery), where also a proof is presented.
 
 ## Artifact signature without private key
 
@@ -86,14 +91,14 @@ We can use the signature and public key (digest) in our build artifact and any c
 2. Recover the public key from the constant signature and the hash of the artifact.
 3. Compare the embedded public key digest with the recovered public key digest.
 
-## Security
+### Security considerations
 
-### Private key recovery
-The attacker for our scheme knows the following parameters:
-1. The public key
-1. One message signature pair
+In our scheme, we have a constant signature that we recover a public key from.
+Accordingly, the attacker in our security game knows the following parameters:
 
-This is a weaker security model than EUF-CMA, since in EUF-CMA, the attacker can query the signature for the message in 2. Then they have the same information AND further oracle queries available. Therefore, since ECDSA is EUF-CMA secure, the attacker in our scheme also cannot create new message signature pairs.
+1. The public key $B$
+1. One message signature pair $(m, (r, s))$ where $m$ is the hash of the artifact and $(r, s)$ is the constant signature $(2, 1)$.
 
-In practice to break the scheme using a constant signature, the attacker still needs to find a hash collision in $h$ even when they've recovered the private key.
-
+This is a weaker security model than EUF-CMA, which would allow the attacker to query signature for additional, chosen messages.
+Therefore, since ECDSA is EUF-CMA secure, the attacker in our scheme also cannot create new message signature pairs.
+In practice, to break the scheme using a constant signature, the attacker still needs to find a hash collision in $h$ even when they've recovered the private key.
