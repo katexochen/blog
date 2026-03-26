@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>blog katexochen</title>
-    <link>https://katexochen.aro.bz/</link>
-    <description>Recent content on blog katexochen</description>
+    <title>Posts on blog katexochen</title>
+    <link>https://katexochen.aro.bz/posts/</link>
+    <description>Recent content in Posts on blog katexochen</description>
     <generator>Hugo -- 0.148.2</generator>
     <language>en-us</language>
     <copyright>Paul Meyer</copyright>
     <lastBuildDate>Thu, 26 Mar 2026 08:55:44 +0100</lastBuildDate>
-    <atom:link href="https://katexochen.aro.bz/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://katexochen.aro.bz/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Reproducing and mitigating BadAML</title>
       <link>https://katexochen.aro.bz/posts/badaml/</link>

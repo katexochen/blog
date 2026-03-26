@@ -2,14 +2,43 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://katexochen.aro.bz/archives/</loc>
+    <loc>https://katexochen.aro.bz/tags/acpi/</loc>
+    <lastmod>2026-03-26T08:55:44+01:00</lastmod>
+  </url><url>
+    <loc>https://katexochen.aro.bz/tags/amd-sev-snp/</loc>
+    <lastmod>2026-03-26T08:55:44+01:00</lastmod>
+  </url><url>
+    <loc>https://katexochen.aro.bz/tags/badaml/</loc>
+    <lastmod>2026-03-26T08:55:44+01:00</lastmod>
   </url><url>
     <loc>https://katexochen.aro.bz/</loc>
+    <lastmod>2026-03-26T08:55:44+01:00</lastmod>
+  </url><url>
+    <loc>https://katexochen.aro.bz/tags/confidential-computing/</loc>
+    <lastmod>2026-03-26T08:55:44+01:00</lastmod>
+  </url><url>
+    <loc>https://katexochen.aro.bz/tags/contrast/</loc>
+    <lastmod>2026-03-26T08:55:44+01:00</lastmod>
+  </url><url>
+    <loc>https://katexochen.aro.bz/tags/linux-kernel/</loc>
+    <lastmod>2026-03-26T08:55:44+01:00</lastmod>
+  </url><url>
+    <loc>https://katexochen.aro.bz/posts/</loc>
+    <lastmod>2026-03-26T08:55:44+01:00</lastmod>
+  </url><url>
+    <loc>https://katexochen.aro.bz/posts/badaml/</loc>
+    <lastmod>2026-03-26T08:55:44+01:00</lastmod>
+  </url><url>
+    <loc>https://katexochen.aro.bz/tags/security/</loc>
+    <lastmod>2026-03-26T08:55:44+01:00</lastmod>
+  </url><url>
+    <loc>https://katexochen.aro.bz/tags/</loc>
+    <lastmod>2026-03-26T08:55:44+01:00</lastmod>
+  </url><url>
+    <loc>https://katexochen.aro.bz/archives/</loc>
   </url><url>
     <loc>https://katexochen.aro.bz/categories/</loc>
   </url><url>
     <loc>https://katexochen.aro.bz/search/</loc>
-  </url><url>
-    <loc>https://katexochen.aro.bz/tags/</loc>
   </url>
 </urlset>
