@@ -21,10 +21,12 @@ In this post, we present a technique based on ECDSA public key recovery that pro
 
 Remote attestation is a fundamental part of Confidential Computing.
 It can be used to prove what software is running in a remote environment.
-Users of such an attested environment do not need to trust the software vendor, provided the code is accessible and can be audited.
-A fundamental requirement for this is reproducible builds.
-A verifying party needs to be able to audit the source and reproduce the build artifacts bit-by-bit to ensure the audited software is actually running within the systems and covered by remote attestation.
-Reproducible builds exclude the software vendor from the trusted computing base[^1].
+Users of such an attested environment do not need to trust the software vendor, excluding them from the trusted computing base[^1].
+
+The verifying party requests the remote attestation of a confidential environment, receiving information about all applications within the environment.
+Next, the verifying party audits the source code belonging to the application for e.g., backdoors.
+Lastly, the verifying party must connect the audited source code to the information of the remote attestation.
+For this, the verifying party reproduces all build artifacts from the audited source bit-by-bit and ensures those and only those binaries are included in the remote attestation. 
 
 When signatures are part of a build artifact, reproducible builds get tricky.
 One case where we encountered this at Edgeless Systems is the AMD SEV-SNP ID block.
@@ -37,8 +39,59 @@ In [Contrast], we ship the ID block as part of our build artifacts, sometimes in
 This turned out to be a challenge: how can we enable a verifying party to reproduce the full artifact, bit-by-bit, including the signature over the ID block?
 The verifying party would need the private key used during build to reproduce the signature!
 
+```
+                                              
+     ┌───────────────────────────────┐        
+     │ IGVM IMAGE                    │        
+     │                               │        
+     │                               │        
+     │ ┌────────────────────────────┐│        
+     │ │  ID BLOCK                  ││        
+     │ │                            ││        
+     │ │ ┌────────────────────────┐ ││        
+     │ │ │ LAUNCH MEASUREMENT     │ ││        
+     │ │ └────────────────────────┘ ││        
+     │ │ ┌────────────────────────┐ ││        
+     │ │ │ GUEST POLICY           │ ││        
+     │ │ └────────────────────────┘ ││        
+     │ └────────────────────────────┘│        
+     │ ┌────────────────────────────┐│        
+     │ │  ID AUTH BLOCK             ││        
+     │ │                            ││        
+     │ │ ┌────────────────────────┐ ││        
+     │ │ │ SIGNATURE(ID BLOCK)    │ ││        
+     │ │ └────────────────────────┘ ││        
+     │ │ ┌────────────────────────┐ ││        
+     │ │ │ PUB KEY                │ ││        
+     │ │ └────────────────────────┘ ││        
+     │ └────────────────────────────┘│        
+     └───────────────────────────────┘        
+                                              
+                                              
+      ┌────────────────────────────┐          
+      │ ATTESTATION REPORT         │          
+      │                            │          
+      │ ┌────────────────────────┐ │          
+      │ │ LAUNCH MEASUREMENT     │ │          
+      │ └────────────────────────┘ │          
+      │ ┌────────────────────────┐ │          
+      │ │ GUEST POLICY           │ │          
+      │ └────────────────────────┘ │          
+      │ ┌────────────────────────┐ │          
+      │ │ SIGNATURE              │ │          
+      │ └────────────────────────┘ │          
+      │                            │          
+      │                            │          
+      │ ┌────────────────────────┐ │          
+      │ │ DIGEST(PUB KEY)        │ │          
+      │ └────────────────────────┘ │          
+      │                            │          
+      └────────────────────────────┘          
+                                              
+```
+
 First, we thought that the signing of the ID block was a superfluous mechanism, as all parameters are reflected in the attestation report, too.
-If a confidential guest were maliciously configured with an altered guest policy or software and the signature mechanism wasn't there, the guest would still be able to start, but the changed parameters would be reflected in the attestation report.
+If a confidential guest was maliciously configured with an altered guest policy or software and the signature mechanism wasn't there, the guest would still be able to start, but the changed parameters would be reflected in the attestation report.
 As we perform remote attestation before trusting a system in Contrast, such manipulation would be discovered at that point.
 The signature doesn't add any security in this scenario.
 So the first thing we did was using a [snakeoil] key for the signature during build, and committing the private key to our repository, so it could be used to reproduce the exact signature.
@@ -48,6 +101,7 @@ So the issue we were facing was the following: we needed a correct, secure signa
 Correct means that verification of the signature with the public key succeeds as long as the signed artifact hasn't changed.
 Secure means that nobody, including the artifact creator, can create new (message, signature) pairs that verify correctly under the used public key.
 
+### Saving SEV with SGX? (Nope)
 Our first idea for a solution was based on another confidential computing technology: SGX enclaves.
 If the ephemeral key generation and signing happened in an SGX enclave, we could generate a quote of how we created that signature in our build process.
 That quote would include the public key and prove that the private key never left the enclave.
@@ -132,10 +186,13 @@ This can be made deterministic in the implementation by selecting always the poi
 
 The algorithm is described in more detail in [*Standards for Efficient Cryptography (SEC) 1: Elliptic Curve Cryptography*](https://www.secg.org/sec1-v2.pdf), Section 4.1.6, as well as on [Wikipedia], where a proof is also presented.
 
-[Wikipedia]: https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm#Public_key_recovery
+Rust implements this algorithm in its [standard library](RustImpl).
+Since Go doesn't, we [implement it ourselves](EdgelessRecoveryImpl).
 
 [^2]: For NIST curves, there are two candidates at most.
-
+[Wikipedia]: https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm#Public_key_recovery
+[EdgelessRecoveryImpl]: https://github.com/edgelesssys/contrast/blob/45f1b5edde0bc3dc16201063660613db3168519a/internal/idblock/idblock.go#L225
+[RustImply]: https://docs.rs/ecdsa/0.16.9/ecdsa/struct.VerifyingKey.html#method.recover_from_msg
 ## Artifact signature without private key
 
 As described, our goal is to create a signature over an artifact that is both correct and secure as well as reproducible by anyone.
