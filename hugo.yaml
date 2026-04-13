@@ -75,6 +75,8 @@ params:
       I contribute to NixOS and work on confidential computing.
 
       *katexochen* is my username on various platforms and a [german (greek) word](https://www.duden.de/rechtschreibung/katexochen).
+  social:
+    fediverse_creator: "@katexochen@infosec.exchange"
   socialIcons:
     - name: mastodon
       url: "https://infosec.exchange/@katexochen"
