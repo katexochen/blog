@@ -7,8 +7,43 @@
     <generator>Hugo</generator>
     <language>en-us</language>
     <copyright>Paul Meyer</copyright>
-    <lastBuildDate>Thu, 26 Mar 2026 08:55:44 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 29 Apr 2026 09:00:00 +0200</lastBuildDate>
     <atom:link href="https://katexochen.aro.bz/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AMD SEV-SNP</title>
+      <link>https://katexochen.aro.bz/tags/amd-sev-snp/</link>
+      <pubDate>Wed, 29 Apr 2026 09:00:00 +0200</pubDate>
+      <guid>https://katexochen.aro.bz/tags/amd-sev-snp/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Confidential Computing</title>
+      <link>https://katexochen.aro.bz/tags/confidential-computing/</link>
+      <pubDate>Wed, 29 Apr 2026 09:00:00 +0200</pubDate>
+      <guid>https://katexochen.aro.bz/tags/confidential-computing/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Cryptography</title>
+      <link>https://katexochen.aro.bz/tags/cryptography/</link>
+      <pubDate>Wed, 29 Apr 2026 09:00:00 +0200</pubDate>
+      <guid>https://katexochen.aro.bz/tags/cryptography/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Reproducible Builds</title>
+      <link>https://katexochen.aro.bz/tags/reproducible-builds/</link>
+      <pubDate>Wed, 29 Apr 2026 09:00:00 +0200</pubDate>
+      <guid>https://katexochen.aro.bz/tags/reproducible-builds/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Security</title>
+      <link>https://katexochen.aro.bz/tags/security/</link>
+      <pubDate>Wed, 29 Apr 2026 09:00:00 +0200</pubDate>
+      <guid>https://katexochen.aro.bz/tags/security/</guid>
+      <description></description>
+    </item>
     <item>
       <title>ACPI</title>
       <link>https://katexochen.aro.bz/tags/acpi/</link>
@@ -17,24 +52,10 @@
       <description></description>
     </item>
     <item>
-      <title>AMD SEV-SNP</title>
-      <link>https://katexochen.aro.bz/tags/amd-sev-snp/</link>
-      <pubDate>Thu, 26 Mar 2026 08:55:44 +0100</pubDate>
-      <guid>https://katexochen.aro.bz/tags/amd-sev-snp/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>BadAML</title>
       <link>https://katexochen.aro.bz/tags/badaml/</link>
       <pubDate>Thu, 26 Mar 2026 08:55:44 +0100</pubDate>
       <guid>https://katexochen.aro.bz/tags/badaml/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Confidential Computing</title>
-      <link>https://katexochen.aro.bz/tags/confidential-computing/</link>
-      <pubDate>Thu, 26 Mar 2026 08:55:44 +0100</pubDate>
-      <guid>https://katexochen.aro.bz/tags/confidential-computing/</guid>
       <description></description>
     </item>
     <item>
@@ -49,13 +70,6 @@
       <link>https://katexochen.aro.bz/tags/linux-kernel/</link>
       <pubDate>Thu, 26 Mar 2026 08:55:44 +0100</pubDate>
       <guid>https://katexochen.aro.bz/tags/linux-kernel/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Security</title>
-      <link>https://katexochen.aro.bz/tags/security/</link>
-      <pubDate>Thu, 26 Mar 2026 08:55:44 +0100</pubDate>
-      <guid>https://katexochen.aro.bz/tags/security/</guid>
       <description></description>
     </item>
   </channel>
