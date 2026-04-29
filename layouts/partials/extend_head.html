@@ -1,3 +1,15 @@
 {{ if or .Params.math .Site.Params.math }}
 {{ partial "math.html" . }}
 {{ end }}
+<style>
+.profile-pic {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+.profile-pic img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+</style>
