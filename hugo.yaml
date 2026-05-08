@@ -9,6 +9,20 @@ buildDrafts: false
 buildFuture: false
 buildExpired: false
 
+cascade:
+  - _target:
+      kind: 'taxonomy'
+    params:
+      robotsNoIndex: true
+    sitemap:
+      disable: true
+  - _target:
+      kind: 'term'
+    params:
+      robotsNoIndex: true
+    sitemap:
+      disable: true
+
 minify:
   disableXML: true
   minifyOutput: true
@@ -23,6 +37,8 @@ params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
   title: blog katexochen
   description: Personal blog of Paul Meyer.
+  schema:
+    publisherType: Person
   keywords:
     - blog
     - confidential computing
