@@ -7,8 +7,27 @@
     <generator>Hugo</generator>
     <language>en-us</language>
     <copyright>Paul Meyer</copyright>
-    <lastBuildDate>Wed, 29 Apr 2026 09:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Tue, 22 Sep 2026 16:09:59 +0200</lastBuildDate>
     <atom:link href="https://katexochen.aro.bz/tags/security/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Understanding NvPCRs in systemd v262</title>
+      <link>https://katexochen.aro.bz/posts/systemd-v262-nvpcrs/</link>
+      <pubDate>Tue, 22 Sep 2026 16:09:59 +0200</pubDate>
+      <guid>https://katexochen.aro.bz/posts/systemd-v262-nvpcrs/</guid>
+      <description>&lt;p&gt;&lt;em&gt;systemd answers TPM PCR scarcity with additional PCR-like registers allocated in the TPM&amp;rsquo;s NV memory,
+with an anchoring design that was reworked in v262.
+In this hands-on deep dive, we rebuild a systemd NvPCR from scratch against a software TPM,
+picking up the required TPM concepts along the way, and analyze why the design is secure.&lt;/em&gt;&lt;/p&gt;
+&lt;h2 id=&#34;why-cant-systemd-get-enough-of-those-pcrs&#34;&gt;Why can&amp;rsquo;t systemd get enough of those PCRs?&lt;/h2&gt;
+&lt;p&gt;Many of systemd&amp;rsquo;s security features rely on TPM PCR measurements: Passwordless full
+disk encryption can unlock disks automatically if the PCR measurements are as expected,
+preventing credential theft while still allowing unattended reboots of remote machines
+with encrypted root disk. Service credentials can be encrypted against the expected
+PCR state. Boot-phase bound credentials are also supported, allowing secrets that can only ever
+be decrypted in the initrd. And with remote attestation, a machine can prove to another party
+what it booted and what happened since, by having the TPM sign its current PCR state (a
+so-called quote). All of this is built on PCR measurements.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Secure signatures without a private key</title>
       <link>https://katexochen.aro.bz/posts/reproducible-secure-signatures/</link>
